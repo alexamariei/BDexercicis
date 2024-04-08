@@ -5,7 +5,7 @@
 - Fes una funció anomenada spData, tal que donada una data en format
 MySQL ( AAAA-MM-DD ) ens retorni una cadena de caràcters en format DD-MM-AAAA
 Exemple : SELECT spData('1988-12-01') => 01-12-1988:
-```python
+```mysql
  DELIMITER //
 DROP FUNCTION IF EXISTS spData //
 CREATE FUNCTION spData(pData DATE) RETURNS CHAR(10)
@@ -24,7 +24,7 @@ DELIMITER;
 - Fes una funció anomenada spPotencia, tal que donada una base i un
 exponent, ens calculi la seva potència. Intenta no utilitzar la funció POW.
 Exemple : SELECT spPotencia(2,3) => 8:
-``` python
+``` mysql
 DELIMITER //
 DROP FUNCTION IF EXISTS spPotencia //
 CREATE FUNCTION spPotencia(pBase INT, pExp INT) RETURNS BIGINT
@@ -51,7 +51,7 @@ DELIMITER;
 
 Per exemple, suposem que l’ empleat amb id_empleat = 124 té un salari de 1000
 Exemple: SELECT spIncrement(124,10) obtindriem -> 1100:
-``` python
+``` mysql
 DELIMITER //
 DROP FUNCTION IF EXISTS spIncrement //
 CREATE FUNCTION spIncrement(pEmpleatId INT, pIncrement FLOAT) RETURNS FLOAT
@@ -71,7 +71,7 @@ DELIMITER;
 ### EXERCICI 4
 - Fes una funció anomenada spPringat, tal que li passem un codi de
 departament, i ens torni el codi d’empleat que guanya menys d’aquell departament:
-``` python
+``` mysql
 
 DELIMITER //
 DROP FUNCTION IF EXISTS spPringat //
@@ -94,7 +94,7 @@ DELIMITER;
 ### EXERCICI 5
 - Utilitzant la funció spPringat fes una consulta per obtenir de cada
 departament, l’empleat pringat. Mostra el codi i nom del departament, i el codi d’empleat:
-``` python
+``` mysql
 SELECT rrhh.spPringat();
 ```
 ### EXERCICI 6
@@ -105,7 +105,7 @@ Entre 0 i 1 anys -> Auxiliar
 Entre 2 i 10 anys -> Oficial de Segona
 Entre 11 i 20 Anys -> Oficial de Primera
 Més de 20 anys -> Que es jubili!:
-``` python
+``` mysql
 DELIMITER //
 DROP FUNCTION IF EXISTS spCategoria //
 CREATE FUNCTION spCategoria(pCodiEmpleat INT) RETURNS VARCHAR(20)
@@ -133,7 +133,7 @@ DELIMITER ;
 - Fes una consulta utilitzant la funció anterior perquè mostri mostri de cada
 empleat, el codi d’empleat, el nom, els anys treballats i la categoria professional a la que
 pertany:
-``` python
+``` mysql
 SELECT empleat_id, nom, cognoms, spCategoria(empleat_id)
 	FROM empleats;
 
@@ -141,7 +141,7 @@ SELECT empleat_id, nom, cognoms, spCategoria(empleat_id)
 ### EXERCICI 8
 - Fes una funció anomenada spEdat, tal que donada una data per paràmetre
 ens retorni l'edat d'una persona. Les dates posteriors a la data d'avui han de retornar 0:
-``` python
+``` mysql
 DELIMITER //
 DROP FUNCTION IF EXISTS spEdat //
 CREATE FUNCTION spEdat(pDataIntroduida DATE) RETURNS INT UNSIGNED
@@ -159,7 +159,7 @@ DELIMITER ;
 ```
 ### EXERCICI 9
 - Fes una funció que ens retorni el número de directors (caps) diferents tenim:
-``` python
+``` mysql
 DELIMITER // 
 DROP FUNCTION IF EXISTS spNumDirectors //
 CREATE FUNCTION spNumDirectors() RETURNS INT
@@ -178,7 +178,7 @@ DELIMITER ;
 ### EXERCICI 10
 - Quina instrucció utilitzarem si volem veure el contingut de la funció
 spPringat?:
-``` python
+``` mysql
 SHOW CREATE FUNCTION spPringat;
 
 SELECT * FROM information_schema.routines;
@@ -192,7 +192,7 @@ SHOW TABLES FROM information_schema;
 ### EXERCICI 1
 - Fes un procediment que permeti obtenir la data i hora del sistema i l’usuari
 actual:
-``` python
+``` mysql
 DELIMITER // 
 
 DROP PROCEDURE IF EXISTS sp_DadesActuals //
@@ -206,7 +206,7 @@ DELIMITER ;
 ### EXERCICI 2
 - Fes un procediment que intercanvii el sou de dos empleats passats per
 paràmetre:
-``` python
+``` mysql
 DELIMITER //
 DROP PROCEDURE IF EXISTS sp_IntercanviSalarial //
 CREATE PROCEDURE sp_IntercanviSalarial(IN pCodiEmpleat1 INT, IN pCodiEmpleat2 INT)
@@ -236,7 +236,7 @@ DELIMITER ;
 ### EXERCICI 3
 - Fes un procediment que donat dos Ids d'empleat assigni el codi de
 departament del primer en el segon:
-``` python
+``` mysql
 DELIMITER //
 DROP PROCEDURE IF EXISTS sp_CanviarDep //
 CREATE PROCEDURE sp_CanviarDep(pCodiEmpleat1 INT, pCodiEmpleat2 INT)
@@ -253,7 +253,7 @@ DELIMITER ;
 - Fes un procediment que donat dos codis de departament assigni tots els
 empleats del segon en el primer. Un cop executat el procediment el departament que
 correspont en el segon paràmetre ha de quedar desert/sense cap empleat:
-``` python
+``` mysql
 DELIMITER //
 DROP PROCEDURE IF EXISTS sp_DepExchange //
 CREATE PROCEDURE sp_DepExchange(IN pCodiDepartament1 INT, IN pCodiDepartament2 INT)
@@ -268,7 +268,7 @@ DELIMITER ;
 ### EXERCICI 5
 - Fes un procediment per mostrar un llistat dels empleats. Volem veure el
 id_empleat, nom_empleat, nom_departament i el nom de la localització del departament:
-``` python
+``` mysql
 DELIMITER //
 DROP PROCEDURE IF EXISTS sp_MostrarEmp //
 CREATE PROCEDURE sp_MostrarEmp(pCodiEmpleat INT)
@@ -283,7 +283,7 @@ DELIMITER ;
 ### EXERCICI 6
 - Fes un procediment que donat un codi d’empleat, ens doni la informació de
 l’empleat ( agafa la informació que creguis rellevant):
-``` python
+``` mysql
 DELIMITER //
 DROP PROCEDURE IF EXISTS sp_DadesRellevantsEmp //
 CREATE PROCEDURE sp_DadesRellevantsEmp(pCodiEmpleat INT)
