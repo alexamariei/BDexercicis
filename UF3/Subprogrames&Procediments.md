@@ -296,6 +296,79 @@ DELIMITER ;
 
 CALL sp_DadesRellevantsEmp(100);
 ```
+```
+### EXERCICI 7
+DROP PROCEDURE IF EXISTS sp_RegistreUsuari()
+DELIMITER // 
+CREATE PROCEDURE sp_RegistreUsuari()
+BEGIN 
+	INSERT INTO registre_usuaris(usuari,acces)
+		VALUES(CURRENT_USER(), NOW());
+END //
+```
+```
+### EXERCICI 10
+DROP PROCEDURE IF EXISTS sp_DadesEmpleat()
+DELIMITER //
+CREATE PROCEDURE sp_DadesEmpleat(IN pEmpleatId INT, OUT pEmpleatNom VARCHAR(20), OUT pEmpleatCognom VARCHAR(25))
+BEGIN
+	SELECT nom, cognoms INTO pEmpleatNom, pEmpleatCognoms
+		FROM empleats
+	WHERE empleat_id = pEmpleatId;
+END //
+```
+```
+### EXERCICI 11
+DROP PROCEDURE IF EXISTS sp_ModificarDadesEmpleat
+DELIMITER //
+CREATE PROCEDURE sp_ModificarDadesEmpleat(IN pEmpleatId INT, OUT pEmpleatNom VARCHAR(20), OUT pEmpleatCognom VARCHAR(25))
+BEGIN
+	UPDATE empleats
+    SET nom = pEmpleatNom,
+		cognoms = pEmpleatCognoms
+	WHERE empleat_id = pEmpleatId;
+END //
+```
+```
+### EXERICIC 12
+CREATE TABLE logs_usuaris(
+	usuari 		VARCHAR(100),
+    data		DATETIME,
+    taula, 		VARCHAR(50),
+    accio		VARCHAR(20),
+    valor_pk	VARCHAR(200)
+);
+
+DROP PROCEDURE IF EXISTS sp_RegistrarLog;
+DELIMITER //
+CREATE PROCEDURE sp_RegistrarLog(pTaula VARCHAR(50), pAccio VARCHAR(20), pValorPK VARCHAR(200))
+BEGIN
+	INSERT INTO logs_usuaris (usuari,data,taula,accio,valor_pk)
+		VALUES(CURRENT_USER(),NOW(), pTaula, pAccio, pValorPK);
+END //
+```
+```
+### EXERCICI 13
+DROP PROCEDURE IF EXISTS sp_EliminarDep;
+DELIMITER //
+CREATE PROCEDURE sp_EliminarDep(pDepId INT)
+BEGIN
+	DECLARE vDepId INT;
+	SELECT departament_id INTO vDepId
+		FROM departaments
+	WHERE departament_id = pDepId;
+    
+IF vDepId IS NOT NULL THEN
+	DELETE FROM  departaments
+		WHERE departament_id = pDepId;
+        
+	DELETE FROM empleats
+		WHERE departament_id = pDepID;
+        
+END IF;
+END //
+```
+
 
 
 
