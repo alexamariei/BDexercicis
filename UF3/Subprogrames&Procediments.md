@@ -296,8 +296,12 @@ DELIMITER ;
 
 CALL sp_DadesRellevantsEmp(100);
 ```
-```
+
 ### EXERCICI 7
+- Volem fer un registre dels usuaris que entren al nostre sistema. Per fer-ho
+primer caldrà crear una taula amb dos camps, un per guardar l’usuari i l’altre per guardar
+la data i hora de l’accés. 
+``` mysql
 DROP PROCEDURE IF EXISTS sp_RegistreUsuari()
 DELIMITER // 
 CREATE PROCEDURE sp_RegistreUsuari()
@@ -306,8 +310,12 @@ BEGIN
 		VALUES(CURRENT_USER(), NOW());
 END //
 ```
-```
+
 ### EXERCICI 10
+- Fes un procediment que donat un codi d’empleat, ens posi en paràmetres
+de sortida el nom i el cognom. Indica com ho pots fer per comprovar si el procediment et
+funciona.
+``` mysql
 DROP PROCEDURE IF EXISTS sp_DadesEmpleat()
 DELIMITER //
 CREATE PROCEDURE sp_DadesEmpleat(IN pEmpleatId INT, OUT pEmpleatNom VARCHAR(20), OUT pEmpleatCognom VARCHAR(25))
@@ -317,8 +325,11 @@ BEGIN
 	WHERE empleat_id = pEmpleatId;
 END //
 ```
-```
+
 ### EXERCICI 11
+ - Fes un procediment que ens permeti modificar el nom i cognom d’un
+empleat. 
+``` mysql
 DROP PROCEDURE IF EXISTS sp_ModificarDadesEmpleat
 DELIMITER //
 CREATE PROCEDURE sp_ModificarDadesEmpleat(IN pEmpleatId INT, OUT pEmpleatNom VARCHAR(20), OUT pEmpleatCognom VARCHAR(25))
@@ -329,8 +340,21 @@ BEGIN
 	WHERE empleat_id = pEmpleatId;
 END //
 ```
-```
+
 ### EXERICIC 12
+ - Crea una taula d’auditoria anomenada logs_usuaris. Aquesta taula la
+utilitzarem per monitoritzar algunes de les accions que fan els usuaris sobre les dades, per exemple si actualitzen dades, eliminen registres. La taula ha de tenir els següents camps:
+
+usuari | VARCHAR(100) | Usuari que ha realitzat l’acció
+data | DATETIME | Data-Hora en que s’ha realitzat l’acció
+taula | VARCHAR(50) | Taula sobre la que es realitza l’acció
+accio | VARCHAR(20) | “ELIMINAR”,”AFEGIR”,”MODIFICAR”,”INSERIR”
+valor_pk | VARCHAR(200) | valor que identifica el registre que ha patit l’acció
+
+Fes un procediment amb nom spRegistrarLog que rebrà com a paràmetres el nom de la
+taula, l’acció i el valor_pk.
+Aquest procediment només cal que insereixi un registre en la taula logs_usuaris amb les dades rebudes, tenint en compte l’usuari actual i la data-hora del sistema.
+``` mysql
 CREATE TABLE logs_usuaris(
 	usuari 		VARCHAR(100),
     data		DATETIME,
@@ -347,8 +371,19 @@ BEGIN
 		VALUES(CURRENT_USER(),NOW(), pTaula, pAccio, pValorPK);
 END //
 ```
-```
+
 ### EXERCICI 13
+- Fes un procediment que ens permeti eliminar un departament determinat. El departament s’ha d’eliminar de la taula departaments. Utilitza a més dins d’aquest
+procediment, el procediment creat anteriorment (spRegistrarLog) per guardar també un
+registre del que ha realitzat l’usuari. Ens ha de quedar clar que l’usuari actual, en data X ha eliminat de la taula DEPARTAMENTS el codi departament Y.
+
+Per exemple, si fem una crida al procediment per eliminar un departament: CALL eliminarDept(300); El departament 300 s’ha d’eliminar de la taula departaments, i a més si fem una SELECT de la taula logs_usuaris, veuriem per exemple el següent:
+
+CALL eliminarDept(300);
+El departament 300 s’ha d’eliminar de la taula departaments, i a més si fem una SELECT
+de la taula logs_usuaris, veuriem per exemple el següent:
+
+``` mysql
 DROP PROCEDURE IF EXISTS sp_EliminarDep;
 DELIMITER //
 CREATE PROCEDURE sp_EliminarDep(pDepId INT)
